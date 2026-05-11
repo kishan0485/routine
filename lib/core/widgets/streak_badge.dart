@@ -5,37 +5,28 @@ import '../theme/app_text_styles.dart';
 class StreakBadge extends StatelessWidget {
   final int streak;
   final double size;
-
   const StreakBadge({super.key, required this.streak, this.size = 1.0});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10 * size,
-        vertical: 5 * size,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 9 * size, vertical: 4 * size),
       decoration: BoxDecoration(
-        gradient: AppColors.orangeGradient,
+        gradient: AppColors.goldGradient,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.warning.withValues(alpha: 0.4),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        boxShadow: [AppColors.goldGlow(opacity: 0.35, blur: 8)],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('🔥', style: TextStyle(fontSize: 12 * size)),
-          SizedBox(width: 4 * size),
+          Text('🔥', style: TextStyle(fontSize: 11 * size)),
+          SizedBox(width: 3 * size),
           Text(
             '$streak',
-            style: AppTextStyles.labelLarge.copyWith(
+            style: AppTextStyles.caption.copyWith(
               color: Colors.white,
-              fontSize: 13 * size,
+              fontWeight: FontWeight.w700,
+              fontSize: 12 * size,
             ),
           ),
         ],
@@ -51,15 +42,16 @@ class XpBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        gradient: AppColors.accentGradient,
+        color: AppColors.primary.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
       ),
       child: Text(
         '⚡ $xp XP',
         style: AppTextStyles.caption.copyWith(
-          color: Colors.white,
+          color: AppColors.primaryLight,
           fontWeight: FontWeight.w600,
         ),
       ),

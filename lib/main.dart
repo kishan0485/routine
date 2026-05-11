@@ -34,7 +34,7 @@ class RoutineApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Routine',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
+      theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
       routerConfig: router,

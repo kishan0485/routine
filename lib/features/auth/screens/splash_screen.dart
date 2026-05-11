@@ -6,90 +6,140 @@ import '../../../core/theme/app_text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulse;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat(reverse: true);
+
+    Future.delayed(const Duration(milliseconds: 2400), () {
       if (mounted) context.go('/onboarding');
     });
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDark,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.bgDark, Color(0xFF1A0A3E)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      body: Stack(
+        children: [
+          // Background glows
+          Positioned(
+            top: -100,
+            right: -100,
+            child: Container(
+              width: 400,
+              height: 400,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(colors: [
+                  AppColors.primary.withValues(alpha: 0.15),
+                  Colors.transparent,
+                ]),
+              ),
+            ),
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FadeInDown(
-                duration: const Duration(milliseconds: 700),
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(28),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.5),
-                        blurRadius: 30,
-                        spreadRadius: 5,
+          Positioned(
+            bottom: -80,
+            left: -80,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(colors: [
+                  AppColors.accent.withValues(alpha: 0.10),
+                  Colors.transparent,
+                ]),
+              ),
+            ),
+          ),
+          // Main content
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Pulsing logo
+                AnimatedBuilder(
+                  animation: _pulse,
+                  builder: (_, child) => Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(
+                              alpha: 0.3 + _pulse.value * 0.25),
+                          blurRadius: 30 + _pulse.value * 20,
+                          spreadRadius: _pulse.value * 6,
+                        ),
+                      ],
+                    ),
+                    child: child,
+                  ),
+                  child: FadeInDown(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        gradient: AppColors.primaryGradient,
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.auto_awesome_rounded,
-                    color: Colors.white,
-                    size: 44,
+                      child: const Icon(Icons.auto_awesome_rounded,
+                          color: Colors.white, size: 46),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              FadeInUp(
-                delay: const Duration(milliseconds: 300),
-                child: Text(
-                  'Routine',
-                  style: AppTextStyles.displayLarge.copyWith(fontSize: 38),
+                const SizedBox(height: 28),
+                FadeInUp(
+                  delay: const Duration(milliseconds: 200),
+                  child: Text('Routine',
+                      style: AppTextStyles.displayLarge.copyWith(fontSize: 40)),
                 ),
-              ),
-              const SizedBox(height: 8),
-              FadeInUp(
-                delay: const Duration(milliseconds: 500),
-                child: Text(
-                  'Your AI life assistant',
-                  style: AppTextStyles.bodyMedium,
-                ),
-              ),
-              const SizedBox(height: 60),
-              FadeIn(
-                delay: const Duration(milliseconds: 800),
-                child: SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.primary.withValues(alpha: 0.7),
+                const SizedBox(height: 8),
+                FadeInUp(
+                  delay: const Duration(milliseconds: 350),
+                  child: Text(
+                    'Your AI life assistant',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 64),
+                FadeIn(
+                  delay: const Duration(milliseconds: 600),
+                  child: SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

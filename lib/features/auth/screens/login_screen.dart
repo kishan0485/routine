@@ -8,20 +8,19 @@ import '../../../core/widgets/glass_card.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailCtrl    = TextEditingController();
+  final _passwordCtrl = TextEditingController();
   bool _obscure = true;
   bool _loading = false;
 
   void _login() async {
     setState(() => _loading = true);
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 1200));
     if (mounted) {
       setState(() => _loading = false);
       context.go('/home');
@@ -30,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -39,27 +38,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDark,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            // Gradient blob background
-            Positioned(
-              top: -60,
-              right: -60,
-              child: Container(
-                width: 250,
-                height: 250,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 80, 24, 40),
+      body: Stack(
+        children: [
+          // Background blobs
+          Positioned(top: -120, right: -80,
+              child: _Blob(size: 320, color: AppColors.primary, opacity: 0.12)),
+          Positioned(bottom: 40, left: -100,
+              child: _Blob(size: 260, color: AppColors.accent, opacity: 0.08)),
+
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(24, 32, 24, 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Logo
                   FadeInDown(
                     child: Container(
                       width: 52,
@@ -67,69 +60,66 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: BoxDecoration(
                         gradient: AppColors.primaryGradient,
                         borderRadius: BorderRadius.circular(16),
+                        boxShadow: [AppColors.primaryGlow(opacity: 0.5, blur: 16)],
                       ),
                       child: const Icon(Icons.auto_awesome_rounded,
-                          color: Colors.white, size: 26),
+                          color: Colors.white, size: 24),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 36),
+                  FadeInDown(delay: const Duration(milliseconds: 80),
+                      child: Text('Welcome back', style: AppTextStyles.displayMedium)),
+                  const SizedBox(height: 6),
                   FadeInDown(
-                    delay: const Duration(milliseconds: 100),
-                    child: Text('Welcome back 👋', style: AppTextStyles.displayMedium),
-                  ),
-                  const SizedBox(height: 8),
-                  FadeInDown(
-                    delay: const Duration(milliseconds: 150),
-                    child: Text(
-                      'Sign in to continue your journey',
-                      style: AppTextStyles.bodyMedium,
-                    ),
+                    delay: const Duration(milliseconds: 130),
+                    child: Text('Sign in to continue your journey',
+                        style: AppTextStyles.bodyMedium),
                   ),
                   const SizedBox(height: 40),
+
+                  // Form
                   FadeInUp(
-                    delay: const Duration(milliseconds: 200),
+                    delay: const Duration(milliseconds: 180),
                     child: Column(
                       children: [
                         TextField(
-                          controller: _emailController,
+                          controller: _emailCtrl,
                           keyboardType: TextInputType.emailAddress,
                           style: AppTextStyles.bodyLarge,
                           decoration: const InputDecoration(
                             hintText: 'Email address',
-                            prefixIcon: Icon(Icons.email_outlined,
-                                color: AppColors.primary),
+                            prefixIcon: Icon(Icons.mail_outline_rounded,
+                                color: AppColors.primary, size: 20),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 14),
                         TextField(
-                          controller: _passwordController,
+                          controller: _passwordCtrl,
                           obscureText: _obscure,
                           style: AppTextStyles.bodyLarge,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             prefixIcon: const Icon(Icons.lock_outline_rounded,
-                                color: AppColors.primary),
+                                color: AppColors.primary, size: 20),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscure
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined,
                                 color: AppColors.textMuted,
+                                size: 20,
                               ),
                               onPressed: () =>
                                   setState(() => _obscure = !_obscure),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'Forgot password?',
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.primary,
-                            ),
-                          ),
+                          child: Text('Forgot password?',
+                              style: AppTextStyles.bodySmall
+                                  .copyWith(color: AppColors.primary)),
                         ),
                         const SizedBox(height: 28),
                         GradientButton(
@@ -137,48 +127,55 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: _login,
                           isLoading: _loading,
                         ),
-                        const SizedBox(height: 24),
-                        Row(
-                          children: [
-                            const Expanded(
-                                child: Divider(color: AppColors.borderDark)),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text('or', style: AppTextStyles.bodySmall),
-                            ),
-                            const Expanded(
-                                child: Divider(color: AppColors.borderDark)),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 28),
+                        Row(children: [
+                          const Expanded(child: Divider(color: AppColors.borderDark)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            child: Text('or continue with',
+                                style: AppTextStyles.caption),
+                          ),
+                          const Expanded(child: Divider(color: AppColors.borderDark)),
+                        ]),
+                        const SizedBox(height: 20),
                         GlassCard(
                           onTap: _login,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('G', style: TextStyle(fontSize: 20, color: AppColors.accent, fontWeight: FontWeight.bold)),
+                              Container(
+                                width: 22,
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Center(
+                                  child: Text('G',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF4285F4))),
+                                ),
+                              ),
                               const SizedBox(width: 12),
                               Text('Continue with Google',
                                   style: AppTextStyles.labelLarge),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 36),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Don't have an account? ",
                                 style: AppTextStyles.bodyMedium),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                'Sign up',
-                                style: AppTextStyles.bodyMedium.copyWith(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            Text(
+                              'Sign up',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -189,7 +186,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Blob extends StatelessWidget {
+  final double size;
+  final Color color;
+  final double opacity;
+  const _Blob({required this.size, required this.color, required this.opacity});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [color.withValues(alpha: opacity), Colors.transparent],
         ),
       ),
     );

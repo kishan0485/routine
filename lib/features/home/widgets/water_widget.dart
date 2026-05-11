@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/glass_card.dart';
 import '../../../core/constants/app_constants.dart';
 
 class WaterWidget extends StatefulWidget {
   const WaterWidget({super.key});
-
   @override
   State<WaterWidget> createState() => _WaterWidgetState();
 }
 
 class _WaterWidgetState extends State<WaterWidget> {
   int _glasses = 3;
-  final int _totalGlasses =
+  final int _total =
       AppConstants.dailyWaterGoalMl ~/ AppConstants.waterPerGlassMl;
-
-  void _add() {
-    if (_glasses < _totalGlasses) setState(() => _glasses++);
-  }
-
-  void _remove() {
-    if (_glasses > 0) setState(() => _glasses--);
-  }
 
   @override
   Widget build(BuildContext context) {
-    final progress = _glasses / _totalGlasses;
+    final progress = _glasses / _total;
     final ml = _glasses * AppConstants.waterPerGlassMl;
 
-    return GlassCard(
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceDark,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.accent.withValues(alpha: 0.07),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,36 +47,68 @@ class _WaterWidgetState extends State<WaterWidget> {
                 ],
               ),
               Text(
-                '$ml / ${AppConstants.dailyWaterGoalMl} ml',
-                style: AppTextStyles.bodySmall
+                '$ml ml',
+                style: AppTextStyles.labelMedium
                     .copyWith(color: AppColors.accent),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: progress,
-              backgroundColor: AppColors.borderDark,
-              color: AppColors.accent,
-              minHeight: 8,
-            ),
+          // Progress track
+          Stack(
+            children: [
+              Container(
+                height: 8,
+                decoration: BoxDecoration(
+                  color: AppColors.borderDark,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutCubic,
+                height: 8,
+                width: (MediaQuery.of(context).size.width - 80) * progress,
+                decoration: BoxDecoration(
+                  gradient: AppColors.accentGradient,
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.accent.withValues(alpha: 0.5),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Glass indicators
               Row(
                 children: List.generate(
-                  _totalGlasses,
+                  _total,
                   (i) => Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: Text(
-                      '💧',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: i < _glasses ? null : Colors.grey.withValues(alpha: 0.3),
+                    padding: const EdgeInsets.only(right: 5),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: i < _glasses
+                            ? AppColors.accent
+                            : AppColors.borderDark,
+                        boxShadow: i < _glasses
+                            ? [
+                                BoxShadow(
+                                  color: AppColors.accent.withValues(alpha: 0.6),
+                                  blurRadius: 6,
+                                )
+                              ]
+                            : null,
                       ),
                     ),
                   ),
@@ -81,11 +116,21 @@ class _WaterWidgetState extends State<WaterWidget> {
               ),
               Row(
                 children: [
-                  _CircleBtn(
-                      icon: Icons.remove, onTap: _remove, color: AppColors.error),
+                  _Btn(
+                    icon: Icons.remove_rounded,
+                    color: AppColors.rose,
+                    onTap: () {
+                      if (_glasses > 0) setState(() => _glasses--);
+                    },
+                  ),
                   const SizedBox(width: 8),
-                  _CircleBtn(
-                      icon: Icons.add, onTap: _add, color: AppColors.accent),
+                  _Btn(
+                    icon: Icons.add_rounded,
+                    color: AppColors.accent,
+                    onTap: () {
+                      if (_glasses < _total) setState(() => _glasses++);
+                    },
+                  ),
                 ],
               ),
             ],
@@ -96,13 +141,11 @@ class _WaterWidgetState extends State<WaterWidget> {
   }
 }
 
-class _CircleBtn extends StatelessWidget {
+class _Btn extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onTap;
   final Color color;
-
-  const _CircleBtn(
-      {required this.icon, required this.onTap, required this.color});
+  final VoidCallback onTap;
+  const _Btn({required this.icon, required this.color, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +155,9 @@ class _CircleBtn extends StatelessWidget {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
+          color: color.withValues(alpha: 0.12),
           shape: BoxShape.circle,
-          border: Border.all(color: color.withValues(alpha: 0.4)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Icon(icon, color: color, size: 16),
       ),

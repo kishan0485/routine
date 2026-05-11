@@ -3,46 +3,49 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Primary palette
-  static const Color primary = Color(0xFF7C3AED);
-  static const Color primaryLight = Color(0xFF9D5FF3);
-  static const Color primaryDark = Color(0xFF5B21B6);
+  // ── Core backgrounds ───────────────────────────────────────────────
+  static const Color bgDark      = Color(0xFF09090F); // near-black
+  static const Color surfaceDark = Color(0xFF13131F); // card bg
+  static const Color cardDark    = Color(0xFF1C1C2E); // elevated card
+  static const Color borderDark  = Color(0xFF2D2D4A); // subtle border
 
-  // Accent
-  static const Color accent = Color(0xFF06B6D4);
-  static const Color accentLight = Color(0xFF22D3EE);
+  // ── Brand ─────────────────────────────────────────────────────────
+  static const Color primary      = Color(0xFF8B5CF6); // vivid violet
+  static const Color primaryLight = Color(0xFFA78BFA);
+  static const Color primaryDark  = Color(0xFF6D28D9);
 
-  // Backgrounds (dark)
-  static const Color bgDark = Color(0xFF0F0F1A);
-  static const Color surfaceDark = Color(0xFF1A1A2E);
-  static const Color cardDark = Color(0xFF16213E);
-  static const Color borderDark = Color(0xFF2A2A4A);
+  // ── Accents ───────────────────────────────────────────────────────
+  static const Color accent  = Color(0xFF38BDF8); // sky blue
+  static const Color gold    = Color(0xFFF59E0B); // premium amber
+  static const Color emerald = Color(0xFF10B981); // success
+  static const Color rose    = Color(0xFFF43F5E); // error / danger
 
-  // Backgrounds (light)
-  static const Color bgLight = Color(0xFFF5F3FF);
-  static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color cardLight = Color(0xFFEDE9FE);
+  // ── Text ──────────────────────────────────────────────────────────
+  static const Color textPrimary   = Color(0xFFF8FAFC);
+  static const Color textSecondary = Color(0xFF94A3B8);
+  static const Color textMuted     = Color(0xFF475569);
 
-  // Semantic
-  static const Color success = Color(0xFF10B981);
-  static const Color warning = Color(0xFFF59E0B);
-  static const Color error = Color(0xFFEF4444);
-  static const Color info = Color(0xFF3B82F6);
+  // ── Semantic ──────────────────────────────────────────────────────
+  static const Color success = emerald;
+  static const Color warning = gold;
+  static const Color error   = rose;
+  static const Color info    = accent;
 
-  // Text (dark theme)
-  static const Color textPrimary = Color(0xFFF8F8FF);
-  static const Color textSecondary = Color(0xFFB0B0D0);
-  static const Color textMuted = Color(0xFF6B6B8F);
-
-  // Gradients
+  // ── Gradients ─────────────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+    colors: [Color(0xFF8B5CF6), Color(0xFF6366F1)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient goldGradient = LinearGradient(
+    colors: [Color(0xFFF59E0B), Color(0xFFEF4444)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient accentGradient = LinearGradient(
-    colors: [Color(0xFF06B6D4), Color(0xFF7C3AED)],
+    colors: [Color(0xFF38BDF8), Color(0xFF6366F1)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -59,10 +62,31 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // Glass effect
+  static const LinearGradient meshGradient = LinearGradient(
+    colors: [Color(0xFF1E1033), Color(0xFF09090F), Color(0xFF0D1929)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [0.0, 0.5, 1.0],
+  );
+
+  // ── Glow helpers ──────────────────────────────────────────────────
+  static BoxShadow primaryGlow({double opacity = 0.35, double blur = 24}) =>
+      BoxShadow(
+        color: primary.withValues(alpha: opacity),
+        blurRadius: blur,
+        spreadRadius: 0,
+      );
+
+  static BoxShadow goldGlow({double opacity = 0.4, double blur = 20}) =>
+      BoxShadow(
+        color: gold.withValues(alpha: opacity),
+        blurRadius: blur,
+      );
+
+  // ── Glass helpers ─────────────────────────────────────────────────
   static Color glassColor(bool isDark) =>
-      isDark ? const Color(0x1AFFFFFF) : const Color(0x80FFFFFF);
+      isDark ? const Color(0x14FFFFFF) : const Color(0x80FFFFFF);
 
   static Color glassBorder(bool isDark) =>
-      isDark ? const Color(0x33FFFFFF) : const Color(0x66FFFFFF);
+      isDark ? const Color(0x22FFFFFF) : const Color(0x55FFFFFF);
 }

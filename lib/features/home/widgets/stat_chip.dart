@@ -6,48 +6,49 @@ class StatChip extends StatelessWidget {
   final String icon;
   final String label;
   final String value;
-  final String total;
-  final Gradient gradient;
+  final String sub;
+  final Color color;
 
   const StatChip({
     super.key,
     required this.icon,
     required this.label,
     required this.value,
-    required this.total,
-    required this.gradient,
+    required this.sub,
+    required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.cardDark,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderDark),
+        color: AppColors.surfaceDark,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(icon, style: const TextStyle(fontSize: 20)),
-          const SizedBox(height: 8),
-          ShaderMask(
-            shaderCallback: (bounds) => gradient.createShader(bounds),
-            child: Text(
-              value,
-              style: AppTextStyles.headlineMedium.copyWith(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          Text(
-            total,
-            style: AppTextStyles.caption,
-          ),
-          const SizedBox(height: 4),
-          Text(label, style: AppTextStyles.caption),
+          const SizedBox(height: 10),
+          Text(value,
+              style: AppTextStyles.headlineMedium
+                  .copyWith(color: color, fontSize: 17)),
+          Text(sub, style: AppTextStyles.caption),
+          const SizedBox(height: 2),
+          Text(label,
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w500,
+              )),
         ],
       ),
     );

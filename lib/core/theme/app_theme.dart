@@ -22,28 +22,21 @@ class AppTheme {
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          scrolledUnderElevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          titleTextStyle: GoogleFonts.plusJakartaSans(
+          titleTextStyle: GoogleFonts.sora(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
+            letterSpacing: -0.3,
           ),
-          iconTheme: const IconThemeData(color: AppColors.textPrimary),
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: AppColors.surfaceDark,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.textMuted,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          elevation: 0,
-          type: BottomNavigationBarType.fixed,
+          iconTheme: const IconThemeData(color: AppColors.textSecondary),
         ),
         cardTheme: CardThemeData(
           color: AppColors.cardDark,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -51,11 +44,11 @@ class AppTheme {
             backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
             elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
             ),
-            textStyle: GoogleFonts.plusJakartaSans(
+            textStyle: GoogleFonts.sora(
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -63,49 +56,42 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: AppColors.cardDark,
+          fillColor: AppColors.surfaceDark,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
             borderSide: const BorderSide(color: AppColors.borderDark),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.borderDark),
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: AppColors.borderDark, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
           ),
-          hintStyle: GoogleFonts.inter(
+          hintStyle: GoogleFonts.dmSans(
             color: AppColors.textMuted,
             fontSize: 14,
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        ),
+        tabBarTheme: TabBarThemeData(
+          indicatorColor: AppColors.primary,
+          indicatorSize: TabBarIndicatorSize.label,
+          labelColor: AppColors.primary,
+          unselectedLabelColor: AppColors.textMuted,
+          labelStyle: GoogleFonts.dmSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: GoogleFonts.dmSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+          ),
+          dividerColor: AppColors.borderDark,
         ),
         dividerColor: AppColors.borderDark,
         iconTheme: const IconThemeData(color: AppColors.textSecondary),
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-      );
-
-  static ThemeData get light => ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: AppColors.bgLight,
-        colorScheme: const ColorScheme.light(
-          primary: AppColors.primary,
-          secondary: AppColors.accent,
-          surface: AppColors.surfaceLight,
-          error: AppColors.error,
-        ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          titleTextStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF1A1A2E),
-          ),
-        ),
+        textTheme: GoogleFonts.dmSansTextTheme(ThemeData.dark().textTheme),
       );
 }
