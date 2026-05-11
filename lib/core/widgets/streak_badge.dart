@@ -20,7 +20,7 @@ class StreakBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.warning.withOpacity(0.4),
+            color: AppColors.warning.withValues(alpha: 0.4),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),

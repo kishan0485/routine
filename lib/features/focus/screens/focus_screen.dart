@@ -157,7 +157,7 @@ class _FocusScreenState extends State<FocusScreen> {
                                 color: (_isBreak
                                         ? AppColors.success
                                         : AppColors.primary)
-                                    .withOpacity(0.3),
+                                    .withValues(alpha: 0.3),
                                 blurRadius: 50,
                                 spreadRadius: 10,
                               )
@@ -219,7 +219,7 @@ class _FocusScreenState extends State<FocusScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: (_isBreak ? AppColors.success : AppColors.primary)
-                              .withOpacity(0.4),
+                              .withValues(alpha: 0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 6),
                         ),

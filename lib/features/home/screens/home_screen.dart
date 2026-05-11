@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/glass_card.dart';
 import '../widgets/task_card.dart';
 import '../widgets/water_widget.dart';
 import '../widgets/ai_suggestion_card.dart';

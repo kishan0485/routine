@@ -73,7 +73,7 @@ class _WaterWidgetState extends State<WaterWidget> {
                       '💧',
                       style: TextStyle(
                         fontSize: 16,
-                        color: i < _glasses ? null : Colors.grey.withOpacity(0.3),
+                        color: i < _glasses ? null : Colors.grey.withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -112,9 +112,9 @@ class _CircleBtn extends StatelessWidget {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
+          color: color.withValues(alpha: 0.15),
           shape: BoxShape.circle,
-          border: Border.all(color: color.withOpacity(0.4)),
+          border: Border.all(color: color.withValues(alpha: 0.4)),
         ),
         child: Icon(icon, color: color, size: 16),
       ),
