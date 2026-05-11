@@ -35,6 +35,7 @@ lib/firebase_options.dart
 # API Keys
 .env
 *.env
+lib/core/constants/api_keys.dart
 
 # IDE
 .idea/

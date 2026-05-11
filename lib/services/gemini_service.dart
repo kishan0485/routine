@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import '../core/constants/api_keys.dart';
 
 class GeminiService {
-  static const String _apiKey = 'YOUR_GEMINI_API_KEY'; // Replace with real key
+  static const String _apiKey = ApiKeys.gemini;
   static const String _systemPrompt = '''
 You are Routine AI — a friendly, motivational daily life assistant for Indian users.
 You help with:
