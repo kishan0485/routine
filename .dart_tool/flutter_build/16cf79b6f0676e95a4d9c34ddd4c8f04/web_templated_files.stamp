@@ -1,0 +1,1 @@
+{"inputs":["/Users/kish/routine/web/*/index.html","/Users/kish/routine/web/flutter_bootstrap.js","/Users/kish/development/flutter/bin/cache/engine.stamp"],"outputs":["/Users/kish/routine/build/web/*/index.html","/Users/kish/routine/build/web/flutter_bootstrap.js"],"buildKey":"[{\"compileTarget\":\"dart2js\",\"renderer\":\"canvaskit\",\"mainJsPath\":\"main.dart.js\"},{}]"}
